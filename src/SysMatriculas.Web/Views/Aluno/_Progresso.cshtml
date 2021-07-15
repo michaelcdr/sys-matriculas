@@ -1,0 +1,83 @@
+﻿@model List<SysMatriculas.Dominio.SemestreComDisciplinas>
+
+<link href="~/css/desempenho.css" rel="stylesheet" />
+
+<div id="curriculo" data-id="@ViewBag.CurriculoId">
+    @foreach (var semestre in Model)
+    {
+        <p>@semestre.Nome</p>
+
+        @foreach (var disciplina in semestre.Disciplinas)
+        {
+            string cssClass = "";
+            if (disciplina.Aprovado)
+            {
+                cssClass = "completed";
+            }
+            else
+            {
+                if (disciplina.TemPreRequisitoNaoConcluido)
+                {
+                    cssClass = "blocked";
+                }
+            }
+
+            <div id="@disciplina.DisciplinaId" 
+                 data-nome="@disciplina.Nome" 
+                 data-aprovado="@Json.Serialize(disciplina.Aprovado)"
+                 data-nota="@disciplina.Nota" onclick="parent.alterarDesempenho(this)"
+                 data-id="@disciplina.DisciplinaId" class="@cssClass">@disciplina.Nome</div>
+        }
+    }
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="~/lib/sweetalert/sweetalert2.all.min.js"></script>
+<script src="~/js/alunos/connections.js"></script>
+<script src="~/js/ModalManager.js"></script>
+<script>
+    $(function () {
+        obterDisciplinas();
+
+        var connections = $("connection, inner");
+        setInterval(function () {
+            connections.connections("update");
+        }, 1000);
+
+        $("#curriculo div").hover(
+            function () {
+                $(this).css("background", "rgba(66, 135, 245,0.9)");
+                $("connection." + this.id).css("color", "rgb(66, 99, 245)");
+            },
+            function () {
+                $(this).css("background", "rgba(255, 255, 255, 0.8)");
+                $("connection." + this.id).css("color", "rgba(0, 0, 0, 0.3)");
+            }
+        );
+    });
+
+    function obterDisciplinas() {
+        let curriculoId = $("#curriculo").data('id');
+        $.getJSON('/Aluno/ObterConexoesDisciplinas', { curriculoId: curriculoId }, function (data) {
+            $(data.disciplinas).each(function (i, el) {
+                //prerequisitos
+                if (el.preRequisitosIds !== null && el.preRequisitosIds.length > 0) {
+                    $(el.preRequisitosIds).each(function (index, disciplinaPrincipal) {
+                        //console.log(`${el.disciplinaId} to: ${disciplinaPrincipal}`)
+                        $(`#${el.disciplinaId}`).connections({ to: `#${disciplinaPrincipal}`, class: `${el.disciplinaId} ${disciplinaPrincipal}` });
+                    });
+                }
+
+                //corequisitos
+                if (el.coRequisitosIds !== null && el.coRequisitosIds.length > 0) {
+                    $(el.coRequisitosIds).each(function (index, disciplinaPrincipal) {
+                        //console.log(`${el.disciplinaId} to: ${disciplinaPrincipal}`)
+                        $(`#${el.disciplinaId}`).connections({ to: `#${disciplinaPrincipal}`, class: `${el.disciplinaId} ${disciplinaPrincipal} co` });
+                    });
+                }
+            });
+        });
+    }
+
+    
+</script>

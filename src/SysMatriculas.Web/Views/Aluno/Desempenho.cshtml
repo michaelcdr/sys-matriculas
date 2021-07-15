@@ -1,0 +1,62 @@
+﻿@model List<SysMatriculas.Dominio.Models.CurriculoComDesempenho>
+
+@{
+    ViewData["Title"] = "Meu desempenho";
+    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Meu desempenho
+        <small>Meu desempenho</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a asp-action="Index">
+                <i class="fa fa-home"></i> Meu desempenho
+            </a>
+        </li>
+        <li class="active">
+            Meu desempenho
+        </li>
+    </ol>
+</section>
+<section class="content container-fluid">
+    <h4 class="box-title">
+        Veja abaixo seu desempenho nos currículos
+    </h4>
+        
+    @foreach (var curriculo in Model)
+    {
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title">@curriculo.Nome</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Disciplina</th>
+                            <th width="60px">Semestre</th>
+                            <th width="60px">Nota</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in curriculo.Disciplinas)
+                        {
+                            <tr>
+                                <td>@item.Nome</td>
+                                <td>@item.Semestre</td>
+                                <td>@item.Nota</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</section>

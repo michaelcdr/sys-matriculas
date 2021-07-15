@@ -1,0 +1,13 @@
+﻿.input-validation-error {
+    border-color: #a94442;
+}
+
+.skin-blue .main-header .logo {
+    background-color: #072024;
+}
+.skin-blue .main-header .navbar {
+    background-color: #0A393F;
+}
+.swal2-popup {
+    font-size: 1.3rem !important;
+}

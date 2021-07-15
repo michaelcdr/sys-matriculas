@@ -1,0 +1,114 @@
+﻿@model SysMatriculas.Web.ViewModels.DisciplinaEdicaoViewModel
+
+@{
+    ViewData["Title"] = "Editar Disciplinas";
+    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+}
+<section class="content-header">
+    <h1>
+        Disciplinas
+        <small>Editar Disciplinas</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a asp-action="Index">
+                <i class="fa fa-home"></i> Disciplinas
+            </a>
+        </li>
+        <li class="active">
+            Editar Disciplinas
+        </li>
+    </ol>
+</section>
+<section class="content container-fluid">
+    <div class="box box-default color-palette-box">
+        <div class="box-header with-border">
+            <h3 class="box-title">
+                Informe os dados abaixo e clique em salvar
+            </h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <form asp-action="Editar" id="form-cadastro">
+                        <input asp-for="DisciplinaId" type="hidden" />
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="Nome" class="control-label"></label>
+                                    <input asp-for="Nome" class="form-control" />
+                                    <span asp-validation-for="Nome" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="CurriculoId" class="control-label">Currículo</label>
+                                    <select asp-for="CurriculoId" asp-items="Model.CurriculosDisponiveis"
+                                            class="form-control">
+                                        <option value="">Selecione um curriculo...</option>
+                                    </select>
+                                    <span asp-validation-for="CurriculoId"
+                                          class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CargaHoraria" class="control-label">Carga horária</label>
+                                    <input asp-for="CargaHoraria" class="form-control" />
+                                    <span asp-validation-for="CargaHoraria" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Semestre" class="control-label">Semestre</label>
+                                    <input asp-for="Semestre" class="form-control" />
+                                    <span asp-validation-for="Semestre" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="PreRequisitos" class="control-label">Pré requisitos</label>
+                                    <select asp-for="PreRequisitos" asp-items="@Model.PreRequisitosDisponiveis" class="form-control">
+                                    </select>
+                                    <span asp-validation-for="PreRequisitos" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CoRequisitos" class="control-label">Co-requisitos</label>
+                                    <select asp-for="CoRequisitos" asp-items="@Model.CoRequisitosDisponiveis" class="form-control">
+                                    </select>
+                                    <span asp-validation-for="CoRequisitos" class="text-danger"></span>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <a class="btn btn-warning" asp-action="Index">
+                                <i class="fa fa-chevron-left"></i> Voltar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-save"></i> Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/disciplinas/CadastroDisciplina.js"></script>
+    <script>
+        window.cadastroDisciplina = new CadastroDisciplina();
+    </script>
+}

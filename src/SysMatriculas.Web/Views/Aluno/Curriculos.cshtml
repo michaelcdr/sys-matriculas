@@ -1,0 +1,58 @@
+﻿@model IEnumerable<SysMatriculas.Dominio.Curriculo>
+
+@{
+    ViewData["Title"] = "Currículos";
+    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+}
+<section class="content-header">
+    <h1>
+        Currículos
+        <small>Currículos do Aluno</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a asp-action="Curriculos" asp-controller="Aluno">
+                <i class="fa fa-home"></i> Currículos
+            </a>
+        </li>
+        <li class="active">
+            Currículos do Aluno
+        </li>
+    </ol>
+</section>
+<section class="content container-fluid">
+    <div class="box box-default color-palette-box">
+        <div class="box-header with-border">
+            <h3 class="box-title">
+                Selecione um currículo abaixo
+            </h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-green-gradient">
+                            <div class="inner">
+                                <h4>
+                                    Disciplinas 
+                                    <strong>@item.Disciplinas.Count(e => e.Desempenhos.Any(a => a.Nota >= 6 && a.UsuarioId == ViewBag.UsuarioId))</strong> de 
+                                    <strong>@item.Disciplinas.Count()</strong> realizadas.
+                                </h4>
+                                <p>@(item.Curso.Nome + " - " + item.Nome)</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a asp-action="Progresso" asp-controller="Aluno" asp-route-id="@item.CurriculoId" class="small-box-footer">
+                                Ver meu progresso <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,46 @@
+﻿@model LoginSistema
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = "~/Views/Shared/_LayoutAdminLTELogin.cshtml";
+}
+<style>
+    .form-control.input-validation-error {
+        border: 1px solid #a94442;
+    }
+
+</style>
+<div class="login-box">
+    <div class="login-logo">
+        <a href="">Sistema de matrículas</a>
+    </div>
+    <div class="login-box-body">
+        <p class="login-box-msg">
+            Use seus dados para entrar no sistema.
+        </p>        
+        <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+            <div class="form-group has-feedback">
+                <input type="text" asp-for="UserName" class="form-control" placeholder="Usuário">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input asp-for="Password" type="password" class="form-control" placeholder="Senha">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            @Html.ValidationSummary(true, "", new { @class = "list-unstyled text-danger" })
+            <div class="row">
+                <div class="col-xs-12">
+                    <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        $('#UserName').focus();
+    </script>
+}

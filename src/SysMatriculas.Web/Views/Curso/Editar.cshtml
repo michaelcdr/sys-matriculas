@@ -1,0 +1,128 @@
+﻿@model SysMatriculas.Web.ViewModels.CursoEditViewModel
+
+@{
+    ViewData["Title"] = "Editar curso";
+    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+}
+<section class="content-header">
+    <h1>
+        Cursos
+        <small>Editar curso</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a asp-action="Index">
+                <i class="fa fa-home"></i> Cursos
+            </a>
+        </li>
+        <li class="active">
+            Editar curso
+        </li>
+    </ol>
+</section>
+<section class="content container-fluid">
+    <div class="box box-default color-palette-box">
+        <div class="box-header with-border">
+            <h3 class="box-title">
+                Informe os dados abaixo e clique em salvar
+            </h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <form asp-action="Editar" id="form-cadastrar">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="CursoId" type="hidden" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="Nome" class="control-label"></label>
+                                    <input asp-for="Nome" class="form-control" />
+                                    <span asp-validation-for="Nome" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="Turno" class="control-label"></label>
+                                    <select asp-for="Turno" asp-items="Model.TurnoItens" class="form-control" multiple="multiple">
+                                    </select>
+                                    <span asp-validation-for="Turno" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>Currículos</h4>
+                                <table id="tb-curriculos" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <td width="40px"></td>
+                                            <td>Nome</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.CurriculosAtuais)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <button class="btn btn-danger btn-delete-curriculo btn-sm" id=""
+                                                            type="button" data-toggle="tooltip" data-placement="top" title="Remover currículo"
+                                                            data-container="body" data-id="" data-loading-text="...">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    @*<select class="form-control" name="Curriculos">
+                                                        <option value="">Selecione um curriculo</option>
+                                                        @foreach (var curriculoPossivel in Model.CurriculosPossiveis)
+                                                        {
+                                                            if (item.CurriculoId == curriculoPossivel.CurriculoId)
+                                                            {
+                                                                <option selected="selected" value="@curriculoPossivel.CurriculoId">@curriculoPossivel.Nome</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@curriculoPossivel.CurriculoId">@curriculoPossivel.Nome</option>
+                                                            }
+                                                        }
+                                                    </select>*@
+
+                                                  
+		                                                <input type="text" class="form-control" name="Curriculos" value="@item.Nome" />
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <p>
+                                    <button class="btn btn-default" type="button" id="btn-add-curriculo">
+                                        <i class="fa fa-plus"></i> Adicionar currículo
+                                    </button>
+                                    <span asp-validation-for="Curriculos" class="text-danger"></span>
+                                    <span id="sp-curriculo" class="text-danger"></span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-warning" asp-action="Index">
+                                <i class="fa fa-chevron-left"></i> 
+                            </a>
+                            <button type="submit" class="btn btn-primary" id="btn-salvar-curso" data-loading-text="Processando, aguarde...">
+                                <i class="fa fa-save"></i> Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/cursos/CadastroCurso.js"></script>
+    <script>
+        window.cadastroCurso = new CadastroCurso();
+    </script>
+}

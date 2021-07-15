@@ -1,0 +1,64 @@
+﻿@addTagHelper *, MyWebApp
+@model SysMatriculas.Web.ViewModels.MenuComponent
+
+@if (Model.TipoDeUsuario == "Aluno")
+{
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">MENU</li>
+        <li data-tipo="Progresso">
+            <a asp-area="" asp-controller="Aluno" asp-action="Curriculos">
+                <i class="fa fa-book"></i>
+                <span>Ver progresso</span>
+            </a>
+        </li>
+        <li data-tipo="Dashboard">
+            <a asp-area="" asp-controller="Aluno" asp-action="Desempenho">
+                <i class="fa fa-dashboard"></i>
+                <span>Meu Desempenho</span>
+            </a>
+        </li>
+        @*<li data-tipo="MeuPerfil">
+            <a asp-area="" asp-controller="Aluno" asp-action="MeuPerfil">
+                <i class="fa fa-dashboard"></i>
+                <span>Meu Desempenho</span>
+            </a>
+        </li>*@
+    </ul>
+}
+else
+{
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">MENU</li>
+        <li data-tipo="Cursos">
+            <a asp-area="" asp-controller="Curso" asp-action="index">
+                <i class="fa fa-cubes"></i>
+                <span>Cursos</span>
+            </a>
+        </li>
+        <li data-tipo="Curriculos">
+            <a asp-area="" asp-controller="Curriculo" asp-action="Index">
+                <i class="fa fa-book"></i>
+                <span>Currículos</span>
+            </a>
+        </li>
+        <li data-tipo="Disciplina">
+            <a asp-area="" asp-controller="Disciplina" asp-action="Index">
+                <i class="fa fa-book"></i>
+                <span>Disciplinas</span>
+            </a>
+        </li>
+
+        <li data-tipo="Usuarios">
+            <a asp-area="" asp-controller="usuario" asp-action="Index">
+                <i class="fa fa-user"></i>
+                <span>Coordenadores</span>
+            </a>
+        </li>
+        <li data-tipo="Alunos">
+            <a asp-area="" asp-controller="aluno" asp-action="Index">
+                <i class="fa fa-user"></i>
+                <span>Alunos</span>
+            </a>
+        </li>
+    </ul>
+}

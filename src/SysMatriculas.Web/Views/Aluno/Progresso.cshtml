@@ -1,0 +1,134 @@
+﻿@model SysMatriculas.Web.ViewModels.AlunoDesempenhoViewModel
+
+@{
+    ViewData["Title"] = "Meu desempenho";
+    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+}
+<style>
+    .swal2-content .sweet-field {
+        
+        margin-bottom:10px;
+    }
+        .swal2-content .sweet-field label {
+            display: inline-block;
+            width:75px;
+            text-align:right;
+        }
+        .swal2-content .sweet-field input[type=number],
+        .swal2-content .sweet-field select {
+            display: inline-block;
+            width: 200px;
+        }
+</style>
+<section class="content-header">
+    <h1>
+        Progresso
+        <small>Veja abaixo o progresso no curso de <strong>@Model.NomeDoCurso</strong></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a asp-action="Curriculos" asp-controller="Aluno">
+                <i class="fa fa-home"></i> Ver Progresso
+            </a>
+        </li>
+        <li>
+            <a asp-action="Curriculos" asp-controller="Aluno">
+                <i class="fa fa-home"></i>Currículos
+            </a>
+        </li>
+
+        <li class="active">
+            Progresso
+        </li>
+    </ol>
+</section>
+<section class="content container-fluid">
+    <div class="box box-default color-palette-box">
+        <div class="box-header with-border">
+            <h3 class="box-title">
+                Veja abaixo seu desempenho.
+            </h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="width:100%;  overflow:auto;">
+                        <iframe id="iframe-disciplinas" src="/Aluno/_Progresso/@Model.CurriculoId"
+                                style="width:2000px; height:calc(100vh - 300px); border:none; "></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section Scripts {
+    <script>
+        function alterarDesempenho(el) {
+            el = $(el);
+            let disciplinaObj = $(el).data();
+            if (el.hasClass("blocked")) {
+                modalManager.mostrarErro('Você deve concluir os Pré requisitos dessa disciplina.');
+            } else {
+
+                Swal.fire({
+                    title: `<strong>Deseja modificar a disciplina ${disciplinaObj.nome}</strong>`,
+                    type: 'info',
+                    html: `<div class='sweet-field'>                    
+                    <label for='Nota'>Nota:</label> 
+                    <input type='number' min="0" max="10" name='Nota' id='Nota' class='form-control' value='${disciplinaObj.nota}' />
+                </div>`,
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    focusConfirm: false,
+                    confirmButtonAriaLabel: 'Salvar alterações',
+                    cancelButtonAriaLabel: 'Cancelar',
+                    showLoaderOnConfirm: true,
+                    preConfirm: () => {
+
+                        return new Promise(function (resolve, reject) {
+                            let params = {
+                                DisciplinaId: disciplinaObj.id,
+                                Nota: parseInt($("#Nota").val())
+                            };
+
+                            if (params.Nota === null || params.Nota === undefined || $("#Nota").val() === "") {
+                                Swal.showValidationMessage(
+                                    `Informe a nota`
+                                );
+                                Swal.hideLoading();
+                            }
+                            else if (params.Nota < 0 || params.Nota > 10) {
+                                Swal.showValidationMessage(
+                                    `A nota deve ser >= 0 e <= 10.`
+                                );
+                                Swal.hideLoading();
+                                //resolve('A nota deve ser maior ou  igual a 0 e menor ou igual a 10');
+
+                            } else {
+                                $.post('/Aluno/AlterarDesempenho', params, function (data) {
+                                    if (data.sucesso) {
+                                        el.data('nota', params.Nota);
+                                        el.data('aprovado', data.Aprovado);
+                                        document.getElementById("iframe-disciplinas").contentWindow.location.reload();
+
+                                        modalManager.mostrarSucesso(data.titulo, data.mensagem);
+                                    } else {
+                                        modalManager.mostrarErro(data.titulo, data.mensagem);
+                                    }
+
+                                }).fail(function () {
+                                    modalManager.mostrarErroServidor();
+                                });
+                            }
+                        });
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+
+                });
+            }
+        }
+    </script>
+
+}

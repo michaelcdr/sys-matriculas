@@ -1,0 +1,71 @@
+﻿@model SysMatriculas.Web.ViewModels.AssociacaoAlunoComCurso
+
+@{
+    ViewData["Title"] = "Matricular";
+    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Matricular
+        <small>Matricular Alunos</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a asp-action="Index">
+                <i class="fa fa-home"></i> Alunos
+            </a>
+        </li>
+        <li class="active">
+            Matricular Alunos
+        </li>
+    </ol>
+</section>
+<section class="content container-fluid">
+    <div class="box box-default color-palette-box">
+        <div class="box-header with-border">
+            <h3 class="box-title">
+                Informe os dados abaixo e clique em salvar
+            </h3>
+        </div>
+        <div class="box-body">
+            <form asp-action="Matricular" id="form-cadastrar">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="CurriculoId" class="control-label">Currículo</label>
+                            <select asp-for="CurriculoId" class="form-control" asp-items="Model.CurriculosDisponiveis">
+                                <option value="">Selecione</option>
+                            </select>
+                            <span asp-validation-for="CurriculoId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="UsuarioId" class="control-label">Aluno</label>
+                            <select asp-for="UsuarioId" asp-items="Model.AlunosDisponiveis" class="form-control">
+                                <option value="">Selecione</option>
+                            </select>
+                            <span asp-validation-for="UsuarioId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <a class="btn btn-warning" asp-action="Index"><i class="fa fa-chevron-left"></i></a>
+                            <button type="submit" id="btn-salvar" class="btn btn-primary">
+                                <i class="fa fa-save"></i> Salvar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/alunos/Matricula.js"></script>
+    <script>
+        window.matricula = new Matricula();
+    </script>
+}

@@ -1,0 +1,171 @@
+﻿
+/*
+    LISTA DE IMAGENS USADAS NO DROPZONE do repositorio de produtos,assets e marcas
+*/
+.ul-imagens-dz {
+    overflow: auto;
+    padding: 0px !important;
+    min-width: 100%;
+    width: 100%;
+    text-align: left;
+    margin: 0;
+    margin-bottom: 0px;
+}
+
+    .ul-imagens-dz > li {
+        display: inline-block;
+        text-align: center;
+        vertical-align: top;
+        position: relative;
+        overflow: hidden;
+        line-height: 250px;
+        width: 250px;
+        height: 250px;
+        margin: 0px 10px 10px 0px !important;
+        border-radius: 0px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-shadow: #eee 2px 2px 2px;
+        box-sizing: content-box;
+        background-color: #fff;
+    }
+
+    .ul-imagens-dz.marcas > li {
+        line-height: 100px;
+        width: 100px;
+        height: 100px;
+    }
+
+        .ul-imagens-dz.marcas > li img {
+            max-height: 80px;
+            max-width: 80px;
+        }
+
+    .ul-imagens-dz.assets > li img {
+        max-height: 200px;
+        max-width: 200px;
+    }
+
+    .ul-imagens-dz > li img {
+        margin: auto;
+        display: inline;
+    }
+
+    .ul-imagens-dz > li:hover .img-overlay {
+        background-color: #ff6600;
+        opacity: 0.6;
+        -webkit-transition: opacity 0.3s linear;
+        -moz-transition: opacity 0.3s linear;
+        -ms-transition: opacity 0.3s linear;
+        -o-transition: opacity 0.3s linear;
+        transition: opacity 0.3s linear;
+    }
+
+    .ul-imagens-dz .img-container {
+        position: relative;
+        width: 100%;
+    }
+
+    .ul-imagens-dz.erros {
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        margin-bottom: 0px;
+    }
+
+        .ul-imagens-dz.erros > li {
+            border: 1px solid #eee;
+            box-shadow: none;
+        }
+
+    .ul-imagens-dz .img-overlay {
+        -webkit-transition: opacity 0.3s linear;
+        -moz-transition: opacity 0.3s linear;
+        -ms-transition: opacity 0.3s linear;
+        -o-transition: opacity 0.3s linear;
+        transition: opacity 0.3s linear;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background-color: #2184BE;
+        opacity: 0;
+        top: 0px;
+        left: 0px;
+        z-index: 1;
+    }
+
+        .ul-imagens-dz .img-overlay i {
+            color: #fff;
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            z-index: 2;
+        }
+
+    .ul-imagens-dz .info-overlay {
+        z-index: 8;
+        position: absolute;
+        line-height: normal;
+        color: #fff;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 5px;
+        display: none;
+        opacity: .8;
+        font-size: 11px;
+        border-radius: 0px 0px 5px 5px;
+    }
+
+        .ul-imagens-dz .info-overlay button {
+            display: inline;
+            text-decoration: none;
+            color: #fff;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+
+    .ul-imagens-dz li:hover {
+        cursor: pointer;
+    }
+
+        .ul-imagens-dz li:hover .info-overlay {
+            display: block;
+            color: #fff !important;
+        }
+
+.img-responsive {
+    display: inline;
+}
+
+.img-responsiveW {
+    width: auto;
+    height: 100%;
+    display: inline;
+}
+
+.ul-imagens-dz .progress {
+    position: absolute;
+    top: calc(50% - 10px);
+    left: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: calc(100% - 20px);
+    height: 20px;
+}
+
+.ul-imagens-dz .dz-error-message {
+    display: none;
+    z-index: 8;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+    .ul-imagens-dz .dz-error-message span.fa-warning,
+    .ul-imagens-dz .dz-error-message span.fa-trash {
+        vertical-align: bottom;
+    }

@@ -1,0 +1,75 @@
+﻿@model SysMatriculas.Dominio.Curriculo
+
+@{
+    ViewData["Title"] = "Editar curso";
+    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+}
+<section class="content-header">
+    <h1>
+        Currículos
+        <small>Editar Currículos</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a asp-action="Index">
+                <i class="fa fa-home"></i> Currículos
+            </a>
+        </li>
+        <li class="active">
+            Editar Currículos
+        </li>
+    </ol>
+</section>
+<section class="content container-fluid">
+    <div class="box box-default color-palette-box">
+        <div class="box-header with-border">
+            <h3 class="box-title">
+                Informe os dados abaixo e clique em salvar
+            </h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <form asp-action="Editar" id="form-cadastrar">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="CurriculoId" type="hidden" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Nome" class="control-label"></label>
+                                    <input asp-for="Nome" class="form-control" />
+                                    <span asp-validation-for="Nome" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CursoId" class="control-label">Curso</label>
+                                    <select asp-for="CursoId" asp-items="ViewBag.Cursos" class="form-control">
+                                        <option value="">Selecione...</option>
+                                    </select>
+                                    <span asp-validation-for="CursoId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-warning" asp-action="Index">
+                                <i class="fa fa-chevron-left"></i> 
+                            </a>
+                            <button type="submit" class="btn btn-primary" id="btn-salvar-curso" data-loading-text="Processando, aguarde...">
+                                <i class="fa fa-save"></i> Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/curriculos/CadastroCurriculo.js"></script>
+    <script>
+        window.cadastroCurriculo = new CadastroCurriculo();
+    </script>
+}
