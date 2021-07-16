@@ -5,9 +5,10 @@
         public int CurriculoId { get; set; }
         public string NomeDoCurso { get;  set; }
 
-        public AlunoDesempenhoViewModel(int curriculoId)
+        public AlunoDesempenhoViewModel(int curriculoId, string nomeCurso)
         {
             CurriculoId = curriculoId;
+            NomeDoCurso = nomeCurso;
         }
     }
 }

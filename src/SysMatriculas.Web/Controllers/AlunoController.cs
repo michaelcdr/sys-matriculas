@@ -39,22 +39,16 @@ namespace SysMatriculas.Web.Controllers
         }
 
         [Authorize(Roles = "Coordenador")]
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
 
-        [HttpPost]
-        [Authorize(Roles = "Coordenador")]
+        [HttpPost, Authorize(Roles = "Coordenador")]
         public async Task<JsonResult> Listar(DataTableRequest request)
         {
             try
             {
-                ColecaoPaginada<Usuario> cursosPaginados =
-                    await _usuarioService.ObterListaPaginada(request, "Aluno");
+                ColecaoPaginada<Usuario> cursosPaginados = await _usuarioService.ObterListaPaginada(request, "Aluno");
 
-                return Json(new
-                {
+                return Json(new {
                     request.draw,
                     recordsTotal = cursosPaginados.RecordsTotal,
                     recordsFiltered = cursosPaginados.RecordsFiltered,
@@ -67,8 +61,7 @@ namespace SysMatriculas.Web.Controllers
             }
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Coordenador")]
+        [HttpPost, Authorize(Roles = "Coordenador")]
         public async Task<JsonResult> Deletar(string id)
         {
             try
@@ -82,8 +75,7 @@ namespace SysMatriculas.Web.Controllers
             }
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Coordenador")]
+        [HttpPost, Authorize(Roles = "Coordenador")]
         public async Task<JsonResult> Ativar(string id)
         {
             try
@@ -97,8 +89,7 @@ namespace SysMatriculas.Web.Controllers
             }
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Coordenador")]
+        [HttpPost, Authorize(Roles = "Coordenador")]
         public async Task<JsonResult> Desativar(string id)
         {
             try
@@ -113,13 +104,9 @@ namespace SysMatriculas.Web.Controllers
         }
 
         [Authorize(Roles = "Coordenador")]
-        public async Task<IActionResult> Cadastrar()
-        {
-            return View(new AlunoCadastroViewModel());
-        }
+        public IActionResult Cadastrar() => View(new AlunoCadastroViewModel());
 
-        [HttpPost]
-        [Authorize(Roles = "Coordenador")]
+        [HttpPost, Authorize(Roles = "Coordenador")]
         public async Task<IActionResult> Cadastrar(AlunoCadastroViewModel model)
         {
             try
@@ -147,9 +134,7 @@ namespace SysMatriculas.Web.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Coordenador")]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Coordenador")]
         public async Task<IActionResult> Editar(AlunoEditViewModel model)
         {
             try
@@ -180,9 +165,7 @@ namespace SysMatriculas.Web.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Coordenador")]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Coordenador")]
         public async Task<IActionResult> Matricular(AssociacaoAlunoComCurso model)
         {
             try
@@ -207,8 +190,7 @@ namespace SysMatriculas.Web.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Aluno")]
+        [HttpPost, Authorize(Roles = "Aluno")]
         public async Task<JsonResult> AlterarDesempenho(ConcluirDisciplinaViewModel model)
         {
             try
@@ -241,10 +223,7 @@ namespace SysMatriculas.Web.Controllers
         public async Task<IActionResult> Progresso(int id)
         {
             var curriculo = await _curriculoService.ObterComCurso(id);
-            var model = new AlunoDesempenhoViewModel(id)
-            {
-                NomeDoCurso = curriculo.Curso.Nome
-            };
+            var model = new AlunoDesempenhoViewModel(id, curriculo.Curso.Nome);
             return View(model);
         }
 
@@ -252,27 +231,21 @@ namespace SysMatriculas.Web.Controllers
         public async Task<PartialViewResult> _Progresso(int id)
         {
             ViewBag.CurriculoId = id;
-            List<SemestreComDisciplinas> semestres = 
-                await _disciplinaService.ObterDisciplinasSeparadasPorSemestre(id, User.Identity.Name);
-
+            List<SemestreComDisciplinas> semestres = await _disciplinaService.ObterDisciplinasSeparadasPorSemestre(id, User.Identity.Name);
             return PartialView(semestres);
         }      
         
         [Authorize(Roles = "Aluno")]
         public async Task<JsonResult> ObterConexoesDisciplinas(int curriculoId)
         {
-            List<DisciplinaDetalhes> disciplinas = 
-                await _disciplinaService.ObterTodasComConexoes(curriculoId, User.Identity.Name);
-
+            List<DisciplinaDetalhes> disciplinas = await _disciplinaService.ObterTodasComConexoes(curriculoId, User.Identity.Name);
             return Json(new { disciplinas });
         }
 
         [Authorize(Roles = "Aluno")]
         public async Task<ActionResult> Desempenho()
         {
-            List<CurriculoComDesempenho> curriculos = 
-                await _curriculoService.ObterTodosDoAlunoComDesempenhos(User.Identity.Name);
-
+            List<CurriculoComDesempenho> curriculos = await _curriculoService.ObterTodosDoAlunoComDesempenhos(User.Identity.Name);
             return View(curriculos);
         }
 
