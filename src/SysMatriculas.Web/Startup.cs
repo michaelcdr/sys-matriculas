@@ -16,6 +16,7 @@ using SysMatriculas.Web.Helpers;
 using SysMatriculas.Web.Models;
 using SysMatriculas.Web.Validators;
 using SysMatriculas.Web.ViewModels;
+using System.IO;
 using System.Reflection;
 
 namespace SysMatriculas.Web
@@ -35,8 +36,17 @@ namespace SysMatriculas.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddUserSecrets<Startup>()
+                .Build(); 
+
             string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-            string connStr = Configuration.GetConnectionString("DefaultConnection");
+
+            //string connStr = Configuration.GetConnectionString("DefaultConnection");
+
+            string connStr = Configuration["ConnStr"];
 
             services.AddDbContext<AppDbContext>(options => {
                 options.UseSqlServer(
@@ -93,7 +103,11 @@ namespace SysMatriculas.Web
 
             services
                 .AddControllersWithViews()
-                .AddFluentValidation();
+               .AddFluentValidation(fv =>
+               {
+                   fv.RegisterValidatorsFromAssemblyContaining<Startup>();
+                   // Ou use Assembly.GetEntryAssembly() se seus validadores estiverem em um assembly separado.
+               });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
