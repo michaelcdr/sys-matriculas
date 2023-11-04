@@ -71,6 +71,7 @@ namespace SysMatriculas.Web
                 option.AccessDeniedPath = "/Usuario/Login";
                 option.Cookie.Name = "SysMatriculas";
             });
+
             services.AddAuthorization();
 
             services.AddTransient<IValidator<UsuarioCadastro>, UsuarioValidator>();
@@ -91,20 +92,15 @@ namespace SysMatriculas.Web
             services.AddScoped<ISelectListItemHelper, SelectListItemHelper>();
 
             services
-                .AddMvc()
-                //.AddJsonOptions(options => {
-                //    options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
-                //})
-                .AddFluentValidation()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .AddControllersWithViews()
+                .AddFluentValidation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(
-                IApplicationBuilder app, 
-                IHostingEnvironment env, 
-                UserManager<Usuario> userManager,
-                RoleManager<TipoDeUsuario> roleManager
+        public void Configure(IApplicationBuilder app, 
+                              IHostingEnvironment env, 
+                              UserManager<Usuario> userManager,
+                              RoleManager<TipoDeUsuario> roleManager
             )
         {
             if (env.IsDevelopment())
@@ -115,6 +111,7 @@ namespace SysMatriculas.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             //app.UseCookiePolicy();
@@ -123,11 +120,15 @@ namespace SysMatriculas.Web
             var seedService = new SeedService(userManager, roleManager);
             seedService.Seed();
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Curso}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                   name: "default",
+                   pattern: "{controller=Curso}/{action=Index}/{id?}");
             });
         }
     }
