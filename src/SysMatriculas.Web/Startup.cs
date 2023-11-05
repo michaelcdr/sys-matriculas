@@ -84,14 +84,14 @@ namespace SysMatriculas.Web
 
             services.AddAuthorization();
 
-            services.AddTransient<IValidator<UsuarioCadastro>, UsuarioValidator>();
-            services.AddTransient<IValidator<DisciplinaCadastroViewModel>, DisciplinaValidator>();
-            services.AddTransient<IValidator<DisciplinaEdicaoViewModel>, DisciplinaValidator>();
-            services.AddTransient<IValidator<CursoViewModel>, CursoValidator>();
-            services.AddTransient<IValidator<Curriculo>, CurriculoValidator>();
-            services.AddTransient<IValidator<AlunoCadastroViewModel>, AlunoValidator>();
-            services.AddTransient<IValidator<AlunoEditViewModel>, AlunoEditValidator>();
-            services.AddTransient<IValidator<AssociacaoAlunoComCurso>, MatriculaValidator>();
+            //services.AddTransient<IValidator<UsuarioCadastro>, UsuarioValidator>();
+            //services.AddTransient<IValidator<DisciplinaCadastroViewModel>, DisciplinaValidator>();
+            //services.AddTransient<IValidator<DisciplinaEdicaoViewModel>, DisciplinaValidator>();
+            //services.AddTransient<IValidator<CursoViewModel>, CursoValidator>();
+            //services.AddTransient<IValidator<Curriculo>, CurriculoValidator>();
+            //services.AddTransient<IValidator<AlunoCadastroViewModel>, AlunoValidator>();
+            //services.AddTransient<IValidator<AlunoEditViewModel>, AlunoEditValidator>();
+            //services.AddTransient<IValidator<AssociacaoAlunoComCurso>, MatriculaValidator>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ICursoService, CursoService>();
@@ -106,7 +106,6 @@ namespace SysMatriculas.Web
                .AddFluentValidation(fv =>
                {
                    fv.RegisterValidatorsFromAssemblyContaining<Startup>();
-                   // Ou use Assembly.GetEntryAssembly() se seus validadores estiverem em um assembly separado.
                });
         }
 
