@@ -24,12 +24,11 @@ namespace SysMatriculas.Web.Controllers
         private readonly ISelectListItemHelper _selectListHelper;
         private readonly IDisciplinaService _disciplinaService;
 
-        public AlunoController(
-            IUsuarioService usuarioService,
-            ICurriculoService curriculoService,
-            IAlunoService alunoService,
-            IDisciplinaService disciplinaService,
-            ISelectListItemHelper selectListHelper)
+        public AlunoController(IUsuarioService usuarioService,
+                               ICurriculoService curriculoService,
+                               IAlunoService alunoService,
+                               IDisciplinaService disciplinaService,
+                               ISelectListItemHelper selectListHelper)
         {
             _usuarioService = usuarioService;
             _curriculoService = curriculoService;

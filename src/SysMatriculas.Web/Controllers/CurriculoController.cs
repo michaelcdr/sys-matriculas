@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using SysMatriculas.Dominio;
 using SysMatriculas.Dominio.Requests;
 using SysMatriculas.Dominio.Responses;
@@ -19,14 +18,13 @@ namespace SysMatriculas.Web.Controllers
     [Authorize(Roles = "Coordenador")]
     public class CurriculoController : Controller
     {
-        private ICurriculoService _curriculoService;
-        private ICursoService _cursoService;
-        private ISelectListItemHelper _selectListHelper;
+        private readonly ICurriculoService _curriculoService;
+        private readonly ICursoService _cursoService;
+        private readonly ISelectListItemHelper _selectListHelper;
 
-        public CurriculoController(
-            ICurriculoService serviceCurriculo,
-            ICursoService cursoService,
-            ISelectListItemHelper selectListItemHelper)
+        public CurriculoController(ICurriculoService serviceCurriculo,
+                                   ICursoService cursoService,
+                                   ISelectListItemHelper selectListItemHelper)
         {
             _curriculoService = serviceCurriculo;
             _cursoService = cursoService;

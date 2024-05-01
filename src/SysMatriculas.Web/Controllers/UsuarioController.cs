@@ -40,6 +40,7 @@ namespace SysMatriculas.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     LoginResponse response = await _usuarioService.Logar(new LoginRequest(model.UserName, model.Password));
+
                     if (response.Logado)
                     {
                         if (response.TipoDeUsuario == "Aluno")
