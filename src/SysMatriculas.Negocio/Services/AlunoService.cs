@@ -3,9 +3,6 @@ using SysMatriculas.Dominio.Requests;
 using SysMatriculas.Negocio.Exceptions;
 using SysMatriculas.Negocio.Services.Interfaces;
 using SysMatriculas.Persistencia.Transacoes;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SysMatriculas.Negocio.Services

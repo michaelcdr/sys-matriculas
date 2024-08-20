@@ -9,9 +9,8 @@ namespace SysMatriculas.Persistencia.Seed
         private readonly UserManager<Usuario> _userManager;
         private readonly RoleManager<TipoDeUsuario> _roleManager;
 
-        public IdentitySeed(
-            UserManager<Usuario> userManager, 
-            RoleManager<TipoDeUsuario> roleManager)
+        public IdentitySeed(UserManager<Usuario> userManager, 
+                            RoleManager<TipoDeUsuario> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;

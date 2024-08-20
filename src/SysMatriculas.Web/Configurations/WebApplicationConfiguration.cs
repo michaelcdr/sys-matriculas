@@ -22,9 +22,8 @@ namespace SysMatriculas.Web.Configurations
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            //app.UseCookiePolicy();
+            app.UseCookiePolicy();
             app.UseAuthentication();
-
 
             using (var serviceScope = app.Services.CreateScope())
             {

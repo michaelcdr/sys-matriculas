@@ -21,7 +21,7 @@ namespace SysMatriculas.Persistencia.EF.Data
 
         public AppDbContext CreateDbContext(string[] args)
         {
-            string connStr = Configuration["ConnStr"];
+            string connStr = Configuration["ContextConnection"];
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
                         
