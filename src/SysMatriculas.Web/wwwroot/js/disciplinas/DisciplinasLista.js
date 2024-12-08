@@ -5,6 +5,7 @@
         this._controller = "disciplina";
         this._token = $('input[name=__RequestVerificationToken]');
         this.construirDataTables();
+
     }
 
     get oTable() {
@@ -44,24 +45,34 @@
         let _self = this;
         
         _self._oTable = _self._tableEl.dataTable({
-            "iDisplayLength": 100,
+            "bLengthChange": false,
             "sPaginationType": "full_numbers",
             "processing": true,
             "serverSide": true,
+            "filter":false,
+            "scrollCollapse": true,
+            "scrollY": 'calc(100vh - 450px)',
             "language": dataTablesAux.obterLanguage(),
             "ajax": {
                 "url": `/${_self._controller}/Listar`,
                 "type": "POST",
                 "data": function (d) {
-                    //d.CategoryId = $('#CategoryId').val();
+                    d.curriculoId = $('#curriculoId').val();
                 }
             },
-            'createdRow': function (row, data, dataIndex) {
-                
+            "initComplete": function () {
+                $("#curriculoId").off("change");
+                $("#curriculoId").on("change", function () {
+                    _self._oTable.fnDraw();
+                });
+
+                $("#pesquisa").on("keyup",function () {
+                    _self._oTable.fnFilter($(this).val());
+                });
             },
             "fnDrawCallback": function () {
-                $('.btn-delete').unbind('click');
-                $('.btn-delete').click(function () {
+                $('.btn-delete').off('click');
+                $('.btn-delete').on("click",function () {
                     _self.remover($(this));
                 });
             },
@@ -74,9 +85,9 @@
                         return retorno;
                     }
                 },
-                { "data": "nome" }
+                { "data": "nome" },
+                { "data": "curriculo" }
             ]
         });
-        _self.oTable.fnAdjustColumnSizing();
     }
 }

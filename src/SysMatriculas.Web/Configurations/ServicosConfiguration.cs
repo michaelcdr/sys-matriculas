@@ -11,6 +11,7 @@ namespace SysMatriculas.Web.Configurations
     {
         public static WebApplicationBuilder ConfigurarServicos(this WebApplicationBuilder builder)
         {
+            builder.Services.AddScoped<ISeedService, SeedService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<ICursoService, CursoService>();
             builder.Services.AddScoped<ICurriculoService, CurriculoService>();

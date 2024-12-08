@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SysMatriculas.Dominio;
-using SysMatriculas.Dominio.Requests;
 using SysMatriculas.Dominio.Responses;
+using SysMatriculas.Persistencia.DTOs.DataTables;
 using SysMatriculas.Persistencia.EF.Data;
 using SysMatriculas.Persistencia.Repositorios.Interfaces;
 using System.Collections.Generic;

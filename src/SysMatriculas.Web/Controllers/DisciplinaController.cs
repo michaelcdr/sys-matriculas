@@ -5,6 +5,7 @@ using SysMatriculas.Dominio;
 using SysMatriculas.Dominio.Requests;
 using SysMatriculas.Dominio.Responses;
 using SysMatriculas.Negocio.Services.Interfaces;
+using SysMatriculas.Persistencia.DTOs.DataTables;
 using SysMatriculas.Web.Extensions;
 using SysMatriculas.Web.Helpers;
 using SysMatriculas.Web.ViewModels;
@@ -23,11 +24,10 @@ namespace SysMatriculas.Web.Controllers
         private ICursoService _cursoService;
         private ISelectListItemHelper _selectListHelper;
 
-        public DisciplinaController(
-            IDisciplinaService disciplinaService,
-            ICurriculoService curriculoService,
-            ICursoService cursoService,
-            ISelectListItemHelper selectListHelper)
+        public DisciplinaController(IDisciplinaService disciplinaService,
+                                    ICurriculoService curriculoService,
+                                    ICursoService cursoService,
+                                    ISelectListItemHelper selectListHelper)
         {
             _disciplinaService = disciplinaService;
             _curriculoService = curriculoService;
@@ -35,29 +35,24 @@ namespace SysMatriculas.Web.Controllers
             _selectListHelper = selectListHelper;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            ViewBag.Curriculos = await _curriculoService.ObterParaFiltros();
             return View();
         }
 
         [HttpPost]
-        public async Task<JsonResult> Listar(DataTableRequest request)
+        public async Task<JsonResult> Listar(DataTableRequestDisciplinas request)
         {
-            try
+            var disciplinasPaginados = await _disciplinaService.ObterListaPaginada(request);
+
+            return Json(new
             {
-                var disciplinasPaginados = await _disciplinaService.ObterListaPaginada(request);
-                return Json(new
-                {
-                    request.draw,
-                    recordsTotal = disciplinasPaginados.RecordsTotal,
-                    recordsFiltered = disciplinasPaginados.RecordsFiltered,
-                    data = disciplinasPaginados.Itens
-                });
-            }
-            catch (Exception ex)
-            {
-                return Json(new ErroResponse("Não foi possível obter os estabelecimentos", ex.Message));
-            }
+                request.draw,
+                recordsTotal = disciplinasPaginados.RecordsTotal,
+                recordsFiltered = disciplinasPaginados.RecordsFiltered,
+                data = disciplinasPaginados.Itens
+            });         
         }
 
         [HttpPost]

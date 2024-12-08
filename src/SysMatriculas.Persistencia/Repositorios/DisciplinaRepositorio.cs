@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SysMatriculas.Dominio;
 using SysMatriculas.Dominio.Requests;
 using SysMatriculas.Dominio.Responses;
+using SysMatriculas.Persistencia.DTOs.DataTables;
 using SysMatriculas.Persistencia.EF.Data;
 using SysMatriculas.Persistencia.Repositorios.Interfaces;
 
@@ -32,13 +33,18 @@ namespace SysMatriculas.Persistencia.Repositorios
                 .Include(e => e.Curriculo).SingleAsync(e => e.DisciplinaId == id);
         }
 
-        public async Task<ColecaoPaginada<Disciplina>> ObterListaPaginada(DataTableRequest request)
+        public async Task<ColecaoPaginada<Disciplina>> ObterListaPaginada(DataTableRequestDisciplinas request)
         {
-            IQueryable<Disciplina> disciplinaQuery = _context.Disciplinas;
+            IQueryable<Disciplina> disciplinaQuery = _context.Disciplinas.Include(e => e.Curriculo);
 
             //busca por nome...
             if (!string.IsNullOrEmpty(request.search.value))
                 disciplinaQuery = disciplinaQuery.Where(p => p.Nome.Contains(request.search.value));
+
+            if (request.CurriculoId.HasValue)
+            {
+                disciplinaQuery = disciplinaQuery.Where(d => d.CurriculoId == request.CurriculoId.Value);
+            }
 
             //ordenação conforme coluna clicada...
             int colunaOrdenada = request.order[0].column;
@@ -78,10 +84,10 @@ namespace SysMatriculas.Persistencia.Repositorios
         public async Task<List<Disciplina>> ObterTodasDoCurriculo(int id)
         {
             return await _context.Disciplinas
-                            .Include(a => a.PreRequisitos)
-                            .Include(a => a.CoRequisitos)
-                            .Where(e => e.CurriculoId == id)
-                            .OrderBy(c => c.Nome).ToListAsync();
+                .Include(a => a.PreRequisitos)
+                .Include(a => a.CoRequisitos)
+                .Where(e => e.CurriculoId == id)
+                .OrderBy(c => c.Nome).ToListAsync();
         }
 
         public async Task<List<Disciplina>> ObterTodos()

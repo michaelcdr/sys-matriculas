@@ -4,6 +4,7 @@ using SysMatriculas.Dominio;
 using SysMatriculas.Dominio.Requests;
 using SysMatriculas.Dominio.Responses;
 using SysMatriculas.Negocio.Services.Interfaces;
+using SysMatriculas.Persistencia.DTOs.DataTables;
 using SysMatriculas.Web.Extensions;
 using SysMatriculas.Web.ViewModels;
 using System;

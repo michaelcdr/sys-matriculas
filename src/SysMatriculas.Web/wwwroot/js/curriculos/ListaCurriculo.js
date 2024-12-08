@@ -63,8 +63,8 @@
                 
             },
             "fnDrawCallback": function () {
-                $('.btn-delete').unbind('click');
-                $('.btn-delete').click(function () {
+                $('.btn-delete').off('click');
+                $('.btn-delete').on('click',function () {
                     _self.remover($(this));
                 });
             },
@@ -75,17 +75,11 @@
                         let retorno = dataTablesAux.gerarBotao('delete', dataObj.curriculoId, 'Remover curriculo', 'trash');
                         retorno += dataTablesAux.gerarLink('edit', dataObj.cursoId, 'Editar curriculo', editarUrl, 'edit');
                         
-                        //if (dataObj.ativo) {
-                        //    retorno += dataTablesAux.gerarBotao('desativar', dataObj.cursoId, 'Desativar curriculo', 'cancel');
-                        //} else {
-                        //    retorno += dataTablesAux.gerarBotao('ativar', dataObj.cursoId, 'ativar curriculo', 'check');
-                        //}
                         return retorno;
                     }
                 },
                 { "data": "nome" }
             ]
         });
-        _self.oTable.fnAdjustColumnSizing();
     }
 }

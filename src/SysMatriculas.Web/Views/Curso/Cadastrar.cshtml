@@ -91,7 +91,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/js/cursos/CadastroCurso.js"></script>
+    <script asp-append-version="true" src="~/js/cursos/CadastroCurso.js"></script>
     <script>
         window.cadastroCurso = new CadastroCurso();
     </script>

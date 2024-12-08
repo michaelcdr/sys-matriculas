@@ -1,7 +1,9 @@
 ﻿using SysMatriculas.Dominio;
 using SysMatriculas.Dominio.Requests;
 using SysMatriculas.Dominio.Responses;
+using SysMatriculas.Negocio.DTO;
 using SysMatriculas.Negocio.Services.Interfaces;
+using SysMatriculas.Persistencia.DTOs.DataTables;
 using SysMatriculas.Persistencia.Transacoes;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,9 +85,20 @@ namespace SysMatriculas.Negocio.Services
             return await _uow.Disciplinas.ObterComRequisitosEPreRequisitos(id);
         }
 
-        public async Task<ColecaoPaginada<Disciplina>> ObterListaPaginada(DataTableRequest request)
+        public async Task<ColecaoPaginada<DisciplinaDTO>> ObterListaPaginada(DataTableRequestDisciplinas request)
         {
-            ColecaoPaginada<Disciplina> curriculosPaginados = await _uow.Disciplinas.ObterListaPaginada(request);
+            var dadosPaginados = await _uow.Disciplinas.ObterListaPaginada(request);
+
+            var curriculosPaginados = new ColecaoPaginada<DisciplinaDTO>(
+                dadosPaginados.RecordsTotal,
+                dadosPaginados.RecordsFiltered,
+                dadosPaginados.Itens.Select(e => new DisciplinaDTO { 
+                    DisciplinaId = e.DisciplinaId,
+                    Nome = e.Nome,
+                    Curriculo = e.Curriculo.Nome,
+                    CurriculoId = e.CurriculoId,
+                }).ToList()
+            );
             return curriculosPaginados;
         }
 

@@ -23,10 +23,25 @@
 </section>
 <section class="content container-fluid">
     @Html.AntiForgeryToken()
+    
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body">
+                    <div class="form-group form-inline">
+                        <label class="control-label">Pesquisa:</label>
+                        <input class="form-control" id="pesquisa" name="pesquisa" />
+
+                        <label class="control-label">Currículo:</label>
+
+                        <select id="curriculoId" name="curriculoId" class="form-control">
+                            <option value="">Selecione</option>
+                            @foreach (var item in (List<KeyValuePair<string,string>>)ViewBag.Curriculos)
+                            {
+                                <option value="@item.Value">@item.Key</option>
+                            }
+                        </select>
+                    </div>
                     <table id="tb-disciplina"
                            class="table table-striped table-bordered "
                            style="width:100%">
@@ -34,9 +49,11 @@
                             <tr>
                                 <th></th>
                                 <th>Nome</th>
+                                <th>Curriculo</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
+                        
                     </table>
                 </div>
             </div>

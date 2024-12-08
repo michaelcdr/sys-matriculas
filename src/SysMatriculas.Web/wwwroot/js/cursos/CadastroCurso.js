@@ -11,7 +11,6 @@ class CadastroCurso {
 
         this._btnSalvar.button('reset');
         this.iniciarEventos();
-
     }
 
     get tableEl() {
@@ -20,19 +19,13 @@ class CadastroCurso {
 
     obterCurriculos() {
         let _self = this;
-        $.get('/Curriculo/ObterLista', function (data) {
-
-            if (data.sucesso) {
-                var options = [];
-                options.push('<option value="">Selecione um currículo</option>');
-                $(data.curriculos).each(function () {
-                    options.push('<option value="'+this.curriculoId+'">'+this.nome+'</option>');
-                });
-                _self._curriculos = options;
-
-            } else {
-                modalManager.mostrarErro(data.title, data.mensagem);
-            }
+        $.get('/Curriculo/ObterLista', function (curriculos) {
+            var options = [];
+            options.push('<option value="">Selecione um currículo</option>');
+            $(curriculos).each(function () {
+                options.push('<option value="'+this.curriculoId+'">'+this.nome+'</option>');
+            });
+            _self._curriculos = options;
 
         }).fail(function () {
             modalManager.mostrarErroServidor();

@@ -1,6 +1,6 @@
 ﻿using SysMatriculas.Dominio;
-using SysMatriculas.Dominio.Requests;
 using SysMatriculas.Dominio.Responses;
+using SysMatriculas.Persistencia.DTOs.DataTables;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

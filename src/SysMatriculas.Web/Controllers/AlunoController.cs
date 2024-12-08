@@ -6,6 +6,7 @@ using SysMatriculas.Dominio.Requests;
 using SysMatriculas.Dominio.Responses;
 using SysMatriculas.Negocio.Exceptions;
 using SysMatriculas.Negocio.Services.Interfaces;
+using SysMatriculas.Persistencia.DTOs.DataTables;
 using SysMatriculas.Web.Extensions;
 using SysMatriculas.Web.Helpers;
 using SysMatriculas.Web.Models;

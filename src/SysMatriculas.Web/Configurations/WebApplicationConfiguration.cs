@@ -27,10 +27,10 @@ namespace SysMatriculas.Web.Configurations
 
             using (var serviceScope = app.Services.CreateScope())
             {
-                UserManager<Usuario> userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<Usuario>>();
-                RoleManager<TipoDeUsuario> roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<TipoDeUsuario>>();
-
-                var seedService = new SeedService(userManager, roleManager);
+                //UserManager<Usuario> userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<Usuario>>();
+                //RoleManager<TipoDeUsuario> roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<TipoDeUsuario>>();
+                var seedService = serviceScope.ServiceProvider.GetRequiredService<ISeedService>();
+                
                 seedService.Seed();
             }
 
