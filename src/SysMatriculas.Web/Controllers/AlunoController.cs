@@ -109,21 +109,16 @@ namespace SysMatriculas.Web.Controllers
         [HttpPost, Authorize(Roles = "Coordenador")]
         public async Task<IActionResult> Cadastrar(AlunoCadastroViewModel model)
         {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    UsuarioRequest request = model.ToUsuarioRequest();
-                    request.TipoDeUsuario = "Aluno";
-                    await _usuarioService.Cadastrar(request);
-                    return RedirectToAction("index");
-                }
-            }
-            catch (Exception ex)
+            if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", ErrorModel.Msg);
+                return View(model);
             }
-            return View(model);
+
+            UsuarioRequest request = model.ToUsuarioRequest();
+            request.TipoDeUsuario = "Aluno";
+            await _usuarioService.Cadastrar(request);
+            return RedirectToAction("index");
         }
 
         [Authorize(Roles = "Coordenador")]
@@ -137,21 +132,16 @@ namespace SysMatriculas.Web.Controllers
         [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Coordenador")]
         public async Task<IActionResult> Editar(AlunoEditViewModel model)
         {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    UsuarioRequest request = model.ToUsuarioRequest();
-                    request.UsuarioId = model.UsuarioId;
-                    await _usuarioService.Atualizar(request);
-                    return RedirectToAction("Index");
-                }
-            }
-            catch (Exception ex)
+            if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", ErrorModel.Msg);
+                return View(model); 
             }
-            return View(model);
+
+            UsuarioRequest request = model.ToUsuarioRequest();
+            request.UsuarioId = model.UsuarioId;
+            await _usuarioService.Atualizar(request);
+            return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "Coordenador")]

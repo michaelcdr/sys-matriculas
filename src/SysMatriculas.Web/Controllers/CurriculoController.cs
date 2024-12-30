@@ -78,21 +78,16 @@ public class CurriculoController : Controller
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Editar(Curriculo model)
     {
-        try
-        {
-            if (ModelState.IsValid)
-            {
-                var request = new CurriculoRequest(model.CurriculoId, model.Nome);
-                await _curriculoService.Atualizar(request);
-            }
-            return RedirectToAction(nameof(Index));
-        }
-        catch (Exception ex)
+        if (!ModelState.IsValid)
         {
             ModelState.AddModelError("", "Não foi possivel atualizar o currículo.");
+            ViewBag.Cursos = await _selectListHelper.ObterCursos();
+            return View(model);
         }
-        ViewBag.Cursos = await _selectListHelper.ObterCursos();
-        return View(model);
+
+        var request = new CurriculoRequest(model.CurriculoId, model.Nome);
+        await _curriculoService.Atualizar(request);
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]

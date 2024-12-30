@@ -11,7 +11,7 @@ namespace SysMatriculas.Persistencia.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20190629203709_asfadf")]
-    partial class asfadf
+    partial class Inicio
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
