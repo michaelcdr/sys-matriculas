@@ -35,7 +35,7 @@ public class CurriculoService : ICurriculoService
             throw new CurriculoJaCadastradoException("Já existe um currículo com o nome informado.");
 
         Curriculo curriculo = await _uow.Curriculos.Obter(request.CurriculoId);
-        curriculo.Nome = request.Nome;            
+        curriculo.Atualizar(request.Nome);            
         await _uow.CommitAsync();
     }
 

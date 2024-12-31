@@ -27,40 +27,28 @@ namespace SysMatriculas.Negocio.Services
         public async Task Atualizar(DisciplinaRequest request)
         {
             Disciplina disciplina = await _uow.Disciplinas.ObterComRequisitosEPreRequisitos((int)request.DisciplinaId);
-            disciplina.CurriculoId = request.CurriculoId;
-            disciplina.CargaHoraria = request.CargaHoraria;
-            disciplina.Semestre = request.Semestre;
+            disciplina.Atualizar(request.CurriculoId, request.CargaHoraria, request.Semestre);
 
             //remove os atuais...
-            if (disciplina.PreRequisitos!= null)
-                foreach (var item in disciplina.PreRequisitos)
-                    await _uow.PreRequisitos.Deletar(item.PreRequisitosId);
+            foreach (var item in disciplina.PreRequisitos)
+                await _uow.PreRequisitos.Deletar(item.PreRequisitosId);
 
-            if(disciplina.CoRequisitos != null)
-                foreach (var item in disciplina.CoRequisitos)
-                    await _uow.CoRequisitos.Deletar(item.CoRequisitosId);
+            foreach (var item in disciplina.CoRequisitos)
+                await _uow.CoRequisitos.Deletar(item.CoRequisitosId);
             
             //adiciona os novos...
-            if (request.PreRequisitos != null && request.PreRequisitos.Count() > 0)
-                foreach (var disciplinaPreRequisitoId in request.PreRequisitos)
-                    disciplina.PreRequisitos.Add(new PreRequisito(disciplinaPreRequisitoId));
+            foreach (var disciplinaPreRequisitoId in request.PreRequisitos)
+                disciplina.PreRequisitos.Add(new PreRequisito(disciplinaPreRequisitoId));
 
-            if (request.CoRequisitos != null && request.CoRequisitos.Count() > 0)
-                foreach (var disciplinaId in request.CoRequisitos)
-                    disciplina.CoRequisitos.Add(new CoRequisito(disciplinaId));
+            foreach (var disciplinaId in request.CoRequisitos)
+                disciplina.CoRequisitos.Add(new CoRequisito(disciplinaId));
 
             await _uow.CommitAsync();
         }
 
         public async Task Cadastrar(DisciplinaRequest request)  
         {
-            var disciplina = new Disciplina
-            {
-                CargaHoraria = request.CargaHoraria,
-                Nome = request.Nome,
-                Semestre = request.Semestre,
-                CurriculoId = request.CurriculoId
-            };
+            var disciplina = new Disciplina(request.CurriculoId, request.Nome, request.CargaHoraria, request.Semestre);
             _uow.Disciplinas.Cadastrar(disciplina);
 
             if (request.PreRequisitos != null && request.PreRequisitos.Count() > 0)

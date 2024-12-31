@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SysMatriculas.Dominio;
 using SysMatriculas.Persistencia.EF.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,22 +31,40 @@ public class SeedService: ISeedService
         // curso > curriculos
         if (_db.Cursos.Count() == 0)
         {
-            var curso = new Curso("Analise e desenvolvimento de sistemas", "Noite")
+            var curso1 = new Curso("Analise e desenvolvimento de sistemas", "Noite")
             {
                 Curriculos = new List<Curriculo>
                 {
+                    new Curriculo("146F"),
+                    new Curriculo("146G"),
                     new Curriculo("146H")
-                    {
-
-                    }
                 }
             };
 
-            _db.Cursos.Add(curso);
+            var curso2 = new Curso("Sistemas de Informação", "Noite")
+            {
+                Curriculos = new List<Curriculo>
+                {
+                    new Curriculo("141H", new List<Disciplina>
+                    {
+                        new Disciplina(0, "Universidade e Sociedade", 60, 1),
+                        new Disciplina(0, "Fundamentos de Administração", 60, 1),
+                        new Disciplina(0, "Fundamentos Teóricos da Computação", 60, 1),
+                        new Disciplina(0, "Introdução aos Sistemas de Informação", 60, 1),
+                        new Disciplina(0, "Lógica de Programação", 60, 1),
+
+                        new Disciplina(0, "Modelagem de Processos", 60, 1),
+                        new Disciplina(0, "Matemática Discreta", 60, 1),
+                        new Disciplina(0, "Programação Procedural", 60, 1),
+                    })
+                }
+            };
+
+            _db.Cursos.AddRange(curso1, curso2);
             _db.SaveChanges();
+
         }
     }
-
 
     private void CriarPrimeiroCoordenador()
     {
@@ -53,10 +72,11 @@ public class SeedService: ISeedService
         {
             var usuario = new Usuario()
             {
-                Email = "michaelcdr@hotmail.com",
-                Nome = "Michael",
-                UserName = "michael",
-                SobreNome = "Costa dos Reis"
+                Id = Guid.NewGuid().ToString(),
+                Email = "coordemador@sysmatriculas.com",
+                Nome = "Coordenador",
+                UserName = "coordenador",
+                SobreNome = "Sem Sobrenome"
             };
             var result = _userManager.CreateAsync(usuario, "123456").Result;
 
@@ -71,7 +91,11 @@ public class SeedService: ISeedService
     {
         if (!_roleManager.RoleExistsAsync("Coordenador").Result)
         {
-            TipoDeUsuario role = new TipoDeUsuario { Name = "Coordenador" };
+            TipoDeUsuario role = new TipoDeUsuario 
+            { 
+                Id = Guid.NewGuid().ToString(),
+                Name = "Coordenador" 
+            };
             IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
         }
     }
@@ -80,7 +104,11 @@ public class SeedService: ISeedService
     {
         if (!_roleManager.RoleExistsAsync("Aluno").Result)
         {
-            TipoDeUsuario role = new TipoDeUsuario { Name = "Aluno" };
+            TipoDeUsuario role = new TipoDeUsuario 
+            { 
+                Id = Guid.NewGuid().ToString(), 
+                Name = "Aluno" 
+            };
             IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
         }
     }

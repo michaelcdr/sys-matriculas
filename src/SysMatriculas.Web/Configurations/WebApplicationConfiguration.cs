@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SysMatriculas.Negocio.Services;
 using SysMatriculas.Persistencia.EF.Data;
 using SysMatriculas.Persistencia.Seed;
 
@@ -25,18 +23,13 @@ public static class WebApplicationConfiguration
         app.UseStaticFiles();
         app.UseCookiePolicy();
         app.UseAuthentication();
-        
-
        
         using (var serviceScope = app.Services.CreateScope())
         {
-
             var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
 
             context.Database.EnsureCreated();
 
-            //UserManager<Usuario> userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<Usuario>>();
-            //RoleManager<TipoDeUsuario> roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<TipoDeUsuario>>();
             var seedService = serviceScope.ServiceProvider.GetRequiredService<ISeedService>();
             
             seedService.Seed();
