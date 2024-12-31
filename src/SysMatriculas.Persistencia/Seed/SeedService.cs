@@ -3,6 +3,7 @@ using SysMatriculas.Dominio;
 using SysMatriculas.Persistencia.EF.Data;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SysMatriculas.Persistencia.Seed;
@@ -26,9 +27,13 @@ public class SeedService: ISeedService
     {
         CriaTipoDeUsuarioAlunoSeNaoExiste();
         CriarTipoDeUsuarioCoordenadorSeNaoExiste();
-        CriarPrimeiroCoordenador();
+        CriarUsuarios();
+        CriarCursos();
+        Debug.WriteLine("Seed Concluido.");
+    }
 
-        // curso > curriculos
+    private void CriarCursos()
+    {
         if (_db.Cursos.Count() == 0)
         {
             var curso1 = new Curso("Analise e desenvolvimento de sistemas", "Noite")
@@ -62,11 +67,10 @@ public class SeedService: ISeedService
 
             _db.Cursos.AddRange(curso1, curso2);
             _db.SaveChanges();
-
         }
     }
 
-    private void CriarPrimeiroCoordenador()
+    private void CriarUsuarios()
     {
         if (!_userManager.GetUsersInRoleAsync("Coordenador").Result.Any())
         {
@@ -83,6 +87,24 @@ public class SeedService: ISeedService
             if (result.Succeeded)
             {
                 var resultCreatedRole = _userManager.AddToRoleAsync(usuario, "Coordenador").Result;
+            }
+        }
+
+        if (!_userManager.GetUsersInRoleAsync("Aluno").Result.Any())
+        {
+            var usuario = new Usuario()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Email = "aluno@sysmatriculas.com",
+                Nome = "Aluno",
+                UserName = "aluno",
+                SobreNome = "Sem Sobrenome"
+            };
+            var result = _userManager.CreateAsync(usuario, "123456").Result;
+
+            if (result.Succeeded)
+            {
+                var resultCreatedRole = _userManager.AddToRoleAsync(usuario, "Aluno").Result;
             }
         }
     }
