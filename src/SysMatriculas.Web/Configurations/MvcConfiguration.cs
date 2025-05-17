@@ -7,6 +7,7 @@ using System.IO;
 using System.Reflection;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SysMatriculas.Web.Configurations;
 
@@ -32,7 +33,10 @@ public static class MvcConfiguration
 
         builder.Services
             .AddFluentValidation(fv => { fv.RegisterValidatorsFromAssemblyContaining<Program>(); })
-            .AddControllersWithViews();
+            .AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new IgnoreAntiforgeryTokenAttribute());
+            });
 
         return builder;
     }
