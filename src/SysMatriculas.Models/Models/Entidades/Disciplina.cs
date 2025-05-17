@@ -1,38 +1,59 @@
 ﻿using System.Collections.Generic;
 
-namespace SysMatriculas.Dominio
+namespace SysMatriculas.Dominio;
+
+public class Disciplina
 {
-    public class Disciplina
+    public int DisciplinaId { get; set; }
+
+    public string Nome { get; private set; }
+    public int CargaHoraria { get; private set; }
+    public int Semestre { get; private set; }
+    public int? Ordem { get; set; }
+
+    public ICollection<PreRequisito> PreRequisitos { get; private set; }
+    public ICollection<PreRequisito> DisciplinasOndeEPreRequisito { get; private set; }
+
+    public ICollection<CoRequisito> CoRequisitos { get; private set; }
+    public ICollection<CoRequisito> DisciplinasOndeECoRequisito { get; private set; }
+
+    public int CurriculoId { get; private set; }
+    public Curriculo Curriculo { get; set; }
+
+    public ICollection<Desempenho> Desempenhos { get; set; }
+
+    protected Disciplina()
     {
-        public int DisciplinaId { get; set; }
+        CoRequisitos = new HashSet<CoRequisito>();
+        DisciplinasOndeECoRequisito = new HashSet<CoRequisito>();
 
-        public string Nome { get; set; }
-        public int CargaHoraria { get; set; }
-        public int Semestre { get; set; }
-        public int? Ordem { get; set; }
+        PreRequisitos = new HashSet<PreRequisito>();
+        DisciplinasOndeEPreRequisito = new HashSet<PreRequisito>();
 
-        public ICollection<PreRequisito> PreRequisitos { get; private set; }
-        public ICollection<PreRequisito> DisciplinasOndeEPreRequisito { get; private set; }
+        Desempenhos = new HashSet<Desempenho>();
+    }
 
-        public ICollection<CoRequisito> CoRequisitos { get; private set; }
-        public ICollection<CoRequisito> DisciplinasOndeECoRequisito { get; private set; }
+    public Disciplina(int curriculoId, string nome, int cargaHoraria, int semestre)
+    {
+        CoRequisitos = new HashSet<CoRequisito>();
+        DisciplinasOndeECoRequisito = new HashSet<CoRequisito>();
 
-        public int CurriculoId { get; set; }
-        public Curriculo Curriculo { get; set; }
+        PreRequisitos = new HashSet<PreRequisito>();
+        DisciplinasOndeEPreRequisito = new HashSet<PreRequisito>();
 
-        public ICollection<Desempenho> Desempenhos { get; set; }
+        Desempenhos = new HashSet<Desempenho>();
 
-        public Disciplina()
-        {
-            CoRequisitos = new HashSet<CoRequisito>();
-            DisciplinasOndeECoRequisito = new HashSet<CoRequisito>();
+        Nome = nome;
+        CurriculoId = curriculoId;
+        CargaHoraria = cargaHoraria;
+        Semestre = semestre;
 
-            PreRequisitos = new HashSet<PreRequisito>();
-            DisciplinasOndeEPreRequisito = new HashSet<PreRequisito>();
+    }
 
-            Desempenhos = new HashSet<Desempenho>();
-        }
-
-
+    public void Atualizar(int curriculoId, int cargaHoraria, int semestre)
+    {
+        CurriculoId = curriculoId;
+        CargaHoraria = cargaHoraria;
+        Semestre = semestre;
     }
 }

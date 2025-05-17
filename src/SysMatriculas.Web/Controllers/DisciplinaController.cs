@@ -81,21 +81,16 @@ namespace SysMatriculas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cadastrar(DisciplinaCadastroViewModel model)
         {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    DisciplinaRequest disciplina = model.ToDisciplinaRequest();
-                    await _disciplinaService.Cadastrar(disciplina);
-                    return RedirectToAction("index");
-                }
-            }
-            catch (Exception ex)
+            if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Não foi possível cadastrar a disciplina");
+                model.CurriculosDisponiveis = await _selectListHelper.ObterCurriculosSelectList();
+                return View(model);
             }
-            model.CurriculosDisponiveis = await _selectListHelper.ObterCurriculosSelectList();
-            return View(model);
+
+            DisciplinaRequest disciplina = model.ToDisciplinaRequest();
+            await _disciplinaService.Cadastrar(disciplina);
+            return RedirectToAction("index");
         }
 
         public async Task<IActionResult> Editar(int id)
@@ -121,7 +116,7 @@ namespace SysMatriculas.Web.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 ModelState.AddModelError("", "Não foi possível atualizar a disciplina.");
             }
