@@ -27,16 +27,10 @@ public class CurriculoController : Controller
 
     public ActionResult Index() => View();
 
-    public async Task<JsonResult> ObterLista()
-    {
-        return Json(await _curriculoService.ObterEmDTOs());
-    }
+    public async Task<JsonResult> ObterLista() => Json(await _curriculoService.ObterEmDTOs());
 
     [HttpPost]
-    public async Task<JsonResult> Listar(DataTableRequest request)
-    {
-        return Json(await _curriculoService.ObterListaPaginada(request));
-    }
+    public async Task<JsonResult> Listar(DataTableRequest request) => Json(await _curriculoService.ObterListaPaginada(request));
 
     public async Task<IActionResult> Cadastrar()
     {
